@@ -10,6 +10,8 @@ import '@/css/main.css'
 import '@/css/typography.css'
 import '@/css/markdown.css'
 
+import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css'
+
 Vue.config.productionTip = false
 
 new Vue({
