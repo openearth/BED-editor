@@ -2,6 +2,7 @@
   <v-app>
     <side-menu />
     <v-main>
+      <router-view />
       <map-component />
     </v-main>
   </v-app>
