@@ -11,7 +11,7 @@
 <script>
 import MapComponent from './components/MapComponent'
 import SideMenu from './components/SideMenu'
-
+import { mapActions } from 'vuex'
 export default {
   name: 'App',
 
@@ -22,6 +22,12 @@ export default {
 
   data: () => ({
     //
-  })
+  }),
+  mounted () {
+    this.loadEditorConfig()
+  },
+  methods: {
+    ...mapActions(['loadEditorConfig'])
+  }
 }
 </script>
