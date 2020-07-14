@@ -5,6 +5,23 @@
         Editor
       </h2>
       <v-form>
+        <v-row>
+          <!-- Set bounding box -->
+          <v-text-field
+            dense
+            readonly
+            label="Latitude (min; max):"
+            class="px-3"
+            :value="selectedBbox.lat"
+          ></v-text-field>
+          <v-text-field
+            dense
+            readonly
+            label="Longitude (min, max):"
+            class="px-3"
+            :value="selectedBbox.lng"
+          ></v-text-field>
+        </v-row>
         <v-row v-for="parameter in editorTemplate" :key="parameter.name">
           <v-text-field
             dense
@@ -23,7 +40,7 @@ import { mapState } from 'vuex'
 
 export default {
   computed: {
-    ...mapState(['editorTemplate'])
+    ...mapState(['editorTemplate', 'selectedBbox'])
   }
 }
 </script>

@@ -18,11 +18,11 @@
 <script>
 import MapboxDraw from '@mapbox/mapbox-gl-draw'
 import DrawRectangle from 'mapbox-gl-draw-rectangle-mode'
+import { mapState } from 'vuex'
 
 export default {
   watch: {
     $route (to, from) {
-      console.log(to)
       if (to.name === 'Editor') {
         this.addDrawingTools()
       }
@@ -40,6 +40,7 @@ export default {
       modes: this.modes,
       displayControlsDefault: false
     })
+    this.addDrawingTools()
   },
   data () {
     return {
@@ -47,26 +48,50 @@ export default {
       draw: {}
     }
   },
+  computed: {
+    ...mapState(['selectedBbox']),
+    bbox: {
+      get () {
+        return this.selectedBbox
+      },
+      set (val) {
+        this.$store.state.selectedBbox = val
+      }
+    }
+  },
   methods: {
     addDrawingTools () {
       this.map.addControl(this.draw, 'top-right')
       this.map.on('draw.create', this.drawFunction)
+      // this.map.on('draw.delete', () => {
+      //   this.bbox = {}
+      // })
     },
     drawFunction (e) {
       this.draw.deleteAll()
       this.draw.add(e.features[0])
-      const NW = this.map.project(e.features[0].geometry.coordinates[0][3])
-      const SE = this.map.project(e.features[0].geometry.coordinates[0][1])
+      const North = e.features[0].geometry.coordinates[0][3][0]
+      const West = e.features[0].geometry.coordinates[0][3][1]
+      const South = e.features[0].geometry.coordinates[0][1][0]
+      const East = e.features[0].geometry.coordinates[0][1][1]
+      const NW = this.map.project([North, West])
+      const SE = this.map.project([South, East])
       const features = this.map.queryRenderedFeatures([NW, SE], {
         layers: this.circleLayers
       })
       this.profileIds = features.map(feat => {
         return feat.properties.cdi_id
       })
+      console.log(East)
+      this.bbox = {
+        lng: `(${East.toFixed(4)}, ${West.toFixed(4)})`,
+        lat: `(${North.toFixed(4)}, ${South.toFixed(4)})`
+      }
     },
     removeDrawingTools () {
       this.map.removeControl(this.draw)
       this.map.off('draw.create', this.drawFunction)
+      this.bbox = {}
     }
   }
 }

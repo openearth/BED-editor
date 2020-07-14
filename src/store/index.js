@@ -5,18 +5,20 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    editorTemplate: []
+    editorTemplate: [],
+    selectedBbox: {}
   },
   mutations: {},
   actions: {
     loadEditorConfig (state) {
-      fetch(`${process.env.VUE_APP_EDITOR_SERVER}/hydromt`, { method: 'POST' })
+      console.log(process.env.VUE_APP_EDITOR_SERVER)
+      fetch(`${process.env.VUE_APP_EDITOR_SERVER}/openapi.json`)
         .then(res => {
           return res.json()
         })
         .then(response => {
-          console.log(response)
-          state.editorTemplate = response
+          console.log(response.components.schemas.HydroMT.properties)
+          state.editorTemplate = response.components.schemas.HydroMT.properties
         })
     }
   }
