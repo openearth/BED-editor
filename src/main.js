@@ -4,6 +4,10 @@ import './registerServiceWorker'
 import router from './router'
 import store from './store'
 import vuetify from './plugins/vuetify'
+import './plugins/vue2mapbox-gl'
+
+import '@/css/main.css'
+import '@/css/typography.css'
 
 Vue.config.productionTip = false
 
