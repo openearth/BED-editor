@@ -1,12 +1,22 @@
-from typing import List, Optional
+from typing import Optional
 from enum import Enum
 from fastapi import FastAPI
-from pydantic import BaseModel, PositiveInt, confloat, conlist, Schema, Field
+from pydantic import BaseModel, PositiveInt, confloat
 
 
 class BBox(BaseModel):
-    latitude: conlist(float, min_items=2, max_items=2)
-    longitude: conlist(float, min_items=2, max_items=2)
+    latitude_min: confloat(ge=-90, le=90)
+    latitude_max: confloat(ge=-90, le=90)
+    longitude_min: confloat(ge=-180, le=180)
+    longitude_max: confloat(ge=-180, le=180)
+
+    class Config:
+        schema_extra = {
+            "latitude_min": 62.0,
+            "latitude_max": 62.2,
+            "longitude_min": -7.5,
+            "longitude_max": -7.0,
+        }
 
 
 class SourceNameEnum(str, Enum):
@@ -23,10 +33,7 @@ class HydroMT(BaseModel):
     class Config:
         schema_extra = {
             "example": {
-                "bbox": {
-                    "latitude": [62.0, 62.2],
-                    "longitude": [-7.5, -7.0]
-                },
+                "bbox": BBox.Config.schema_extra,
                 "strord": 4,
                 "source_name": "hydro_merit_1k",
             }
