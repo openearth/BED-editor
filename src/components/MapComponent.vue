@@ -16,10 +16,57 @@
 </template>
 
 <script>
+import MapboxDraw from '@mapbox/mapbox-gl-draw'
+import DrawRectangle from 'mapbox-gl-draw-rectangle-mode'
+
 export default {
+  watch: {
+    $route (to, from) {
+      console.log(to)
+      if (to.name === 'Editor') {
+        this.addDrawingTools()
+      }
+    }
+  },
+  mounted () {
+    this.map = this.$refs.map.map
+    this.modes = MapboxDraw.modes
+    this.modes.draw_polygon = DrawRectangle
+    this.draw = new MapboxDraw({
+      controls: {
+        polygon: true,
+        trash: true
+      },
+      modes: this.modes,
+      displayControlsDefault: false
+    })
+  },
   data () {
     return {
-      mapboxAccessToken: process.env.VUE_APP_MAPBOX_TOKEN
+      mapboxAccessToken: process.env.VUE_APP_MAPBOX_TOKEN,
+      draw: {}
+    }
+  },
+  methods: {
+    addDrawingTools () {
+      this.map.addControl(this.draw, 'top-right')
+      this.map.on('draw.create', this.drawFunction)
+    },
+    drawFunction (e) {
+      this.draw.deleteAll()
+      this.draw.add(e.features[0])
+      const NW = this.map.project(e.features[0].geometry.coordinates[0][3])
+      const SE = this.map.project(e.features[0].geometry.coordinates[0][1])
+      const features = this.map.queryRenderedFeatures([NW, SE], {
+        layers: this.circleLayers
+      })
+      this.profileIds = features.map(feat => {
+        return feat.properties.cdi_id
+      })
+    },
+    removeDrawingTools () {
+      this.map.removeControl(this.draw)
+      this.map.off('draw.create', this.drawFunction)
     }
   }
 }
