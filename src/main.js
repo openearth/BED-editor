@@ -8,6 +8,7 @@ import './plugins/vue2mapbox-gl'
 
 import '@/css/main.css'
 import '@/css/typography.css'
+import '@/css/markdown.css'
 
 Vue.config.productionTip = false
 

@@ -5,6 +5,8 @@
     :access-token="mapboxAccessToken"
     :preserve-drawing-buffer="true"
     map-style="mapbox://styles/global-data-viewer/cjtss3jfb05w71fmra13u4qqm"
+    :logoPosition="'bottom-right'"
+    :trackResize="'false'"
   >
     <v-mapbox-navigation-control
       :options="{ visualizePitch: true }"
@@ -34,5 +36,9 @@ export default {
   right: 55px;
   bottom: 1.5rem;
   left: auto;
+}
+
+#map .mapboxgl-ctrl-bottom-right {
+  padding-right: 12px;
 }
 </style>
