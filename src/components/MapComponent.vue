@@ -75,10 +75,10 @@ export default {
     drawFunction (e) {
       this.draw.deleteAll()
       this.draw.add(e.features[0])
-      const North = e.features[0].geometry.coordinates[0][3][0]
-      const West = e.features[0].geometry.coordinates[0][3][1]
-      const South = e.features[0].geometry.coordinates[0][1][0]
-      const East = e.features[0].geometry.coordinates[0][1][1]
+      const North = Math.min(...e.features[0].geometry.coordinates[0][3])
+      const West = Math.max(...e.features[0].geometry.coordinates[0][3])
+      const South = Math.max(...e.features[0].geometry.coordinates[0][1])
+      const East = Math.min(...e.features[0].geometry.coordinates[0][1])
       const NW = this.map.project([North, West])
       const SE = this.map.project([South, East])
       const features = this.map.queryRenderedFeatures([NW, SE], {
