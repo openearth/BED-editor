@@ -18,13 +18,16 @@
 <script>
 import MapboxDraw from '@mapbox/mapbox-gl-draw'
 import DrawRectangle from 'mapbox-gl-draw-rectangle-mode'
-import { mapState } from 'vuex'
+import { mapState, mapMutations } from 'vuex'
+import _ from 'lodash'
 
 export default {
   watch: {
     $route (to, from) {
-      if (to.name === 'Editor') {
+      if (to.name === 'Editor' && from.name !== 'Editpr') {
         this.addDrawingTools()
+      } else if (from.name === 'Editor') {
+        this.removeDrawingTools()
       }
     }
   },
@@ -52,14 +55,16 @@ export default {
     ...mapState(['selectedBbox']),
     bbox: {
       get () {
-        return this.selectedBbox
+        return this.selectedBbox.properties
       },
       set (val) {
-        this.$store.state.selectedBbox = val
+        const props = _.merge(this.$store.state.selectedBbox.properties, val)
+        this.setBboxProperties(props)
       }
     }
   },
   methods: {
+    ...mapMutations(['setBboxProperties']),
     addDrawingTools () {
       this.map.addControl(this.draw, 'top-right')
       this.map.on('draw.create', this.drawFunction)
@@ -82,16 +87,22 @@ export default {
       this.profileIds = features.map(feat => {
         return feat.properties.cdi_id
       })
-      console.log(East)
       this.bbox = {
-        lng: `(${East.toFixed(4)}, ${West.toFixed(4)})`,
-        lat: `(${North.toFixed(4)}, ${South.toFixed(4)})`
+        latitude_min: { value: East },
+        latitude_max: { value: West },
+        longitude_min: { value: North },
+        longitude_max: { value: South }
       }
     },
     removeDrawingTools () {
       this.map.removeControl(this.draw)
       this.map.off('draw.create', this.drawFunction)
-      this.bbox = {}
+      this.bbox = {
+        latitude_min: { value: null },
+        latitude_max: { value: null },
+        longitude_min: { value: null },
+        longitude_max: { value: null }
+      }
     }
   }
 }
