@@ -1,10 +1,10 @@
 <template>
   <v-navigation-drawer class="pl-16" permanent absolute width="60vw">
     <v-container class="pa-3">
-      <h2 class="h3 mb-3">
+      <h2 class="h3 mb-3 justify-start">
         Editor
       </h2>
-      <v-form>
+      <v-form v-if="createForm === true">
         <h4 class="mb-3">
           {{ selectedBbox.title }}
         </h4>
@@ -53,6 +53,23 @@
           ></v-combobox>
         </v-row>
       </v-form>
+      <v-row class="pa-3 justify-end" v-if="createForm === true">
+        <v-btn bottom color="primary" outlined @click="createSchematization">
+          Create schematization
+        </v-btn>
+      </v-row>
+    </v-container>
+    <v-container v-if="createForm === false">
+      <v-alert outlined color="primary">
+        Scehmatization created!
+      </v-alert>
+      <v-textarea
+        solo
+        readonly
+        name="input-7-4"
+        label="Solo textarea"
+        :value="createdMessage"
+      ></v-textarea>
     </v-container>
   </v-navigation-drawer>
 </template>
@@ -63,6 +80,42 @@ import { mapState } from 'vuex'
 export default {
   computed: {
     ...mapState(['editorTemplate', 'selectedBbox'])
+  },
+  data () {
+    return {
+      createForm: true,
+      createdMessage: ''
+    }
+  },
+  methods: {
+    createSchematization () {
+      const jsonBody = {}
+      // Fill in the json body needed for the schematization request
+      Object.entries(this.editorTemplate.properties).forEach(entry => {
+        if (entry[0] === 'bbox') {
+          const bbox = {}
+          Object.entries(this.selectedBbox.properties).forEach(bboxEntry => {
+            bbox[bboxEntry[0]] = bboxEntry[1].value
+          })
+          jsonBody[entry[0]] = bbox
+        } else {
+          jsonBody[entry[0]] = entry[1].value
+        }
+      })
+
+      fetch(`${process.env.VUE_APP_EDITOR_SERVER}/hydromt`, {
+        method: 'POST',
+        body: JSON.stringify(jsonBody)
+      })
+        .then(response => {
+          return response.json()
+        })
+        .then(res => {
+          console.log(res)
+          this.createForm = false
+          this.createdMessage = JSON.stringify(res)
+        })
+    }
   }
 }
 </script>

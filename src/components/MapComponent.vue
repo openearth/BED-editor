@@ -24,7 +24,7 @@ import _ from 'lodash'
 export default {
   watch: {
     $route (to, from) {
-      if (to.name === 'Editor' && from.name !== 'Editpr') {
+      if (to.name === 'Editor' && from.name !== 'Editor') {
         this.addDrawingTools()
       } else if (from.name === 'Editor') {
         this.removeDrawingTools()
@@ -68,11 +68,18 @@ export default {
     addDrawingTools () {
       this.map.addControl(this.draw, 'top-right')
       this.map.on('draw.create', this.drawFunction)
-      // this.map.on('draw.delete', () => {
-      //   this.bbox = {}
-      // })
+      this.map.on('draw.delete', () => {
+        this.bbox = {
+          latitude_min: { value: null },
+          latitude_max: { value: null },
+          longitude_min: { value: null },
+          longitude_max: { value: null }
+        }
+      })
     },
     drawFunction (e) {
+      // First delete all previous elements in the draw component, so we always have 1 bbox selected
+      // Store a new bbox and send the coordinates to the store
       this.draw.deleteAll()
       this.draw.add(e.features[0])
       const North = Math.min(...e.features[0].geometry.coordinates[0][3])
@@ -95,6 +102,7 @@ export default {
       }
     },
     removeDrawingTools () {
+      // When done on the editor page remove the drawing tools from the map
       this.map.removeControl(this.draw)
       this.map.off('draw.create', this.drawFunction)
       this.bbox = {
