@@ -111,7 +111,6 @@ export default {
           return response.json()
         })
         .then(res => {
-          console.log(res)
           this.createForm = false
           this.createdMessage = JSON.stringify(res)
         })

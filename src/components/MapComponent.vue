@@ -82,12 +82,12 @@ export default {
       // Store a new bbox and send the coordinates to the store
       this.draw.deleteAll()
       this.draw.add(e.features[0])
-      const North = Math.min(...e.features[0].geometry.coordinates[0][3])
-      const West = Math.max(...e.features[0].geometry.coordinates[0][3])
-      const South = Math.max(...e.features[0].geometry.coordinates[0][1])
-      const East = Math.min(...e.features[0].geometry.coordinates[0][1])
-      const NW = this.map.project([North, West])
-      const SE = this.map.project([South, East])
+      const N = Math.min(...e.features[0].geometry.coordinates[0][3])
+      const W = Math.max(...e.features[0].geometry.coordinates[0][3])
+      const S = Math.max(...e.features[0].geometry.coordinates[0][1])
+      const E = Math.min(...e.features[0].geometry.coordinates[0][1])
+      const NW = this.map.project([N, W])
+      const SE = this.map.project([S, E])
       const features = this.map.queryRenderedFeatures([NW, SE], {
         layers: this.circleLayers
       })
@@ -95,10 +95,10 @@ export default {
         return feat.properties.cdi_id
       })
       this.bbox = {
-        latitude_min: { value: East },
-        latitude_max: { value: West },
-        longitude_min: { value: North },
-        longitude_max: { value: South }
+        latitude_min: { value: E },
+        latitude_max: { value: W },
+        longitude_min: { value: N },
+        longitude_max: { value: S }
       }
     },
     removeDrawingTools () {
