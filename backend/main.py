@@ -2,6 +2,7 @@ from typing import Optional
 from enum import Enum
 from fastapi import FastAPI
 from pydantic import BaseModel, PositiveInt, confloat
+from starlette.middleware.cors import CORSMiddleware
 
 
 class BBox(BaseModel):
@@ -41,6 +42,13 @@ class HydroMT(BaseModel):
 
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:8000", "http://localhost:8080"],
+    allow_credentials=True,
+    allow_headers=["*"]
+)
 
 
 @app.get("/")
