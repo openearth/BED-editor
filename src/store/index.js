@@ -11,6 +11,9 @@ export default new Vuex.Store({
   mutations: {
     setBboxProperties (state, props) {
       state.selectedBbox.properties = props
+    },
+    setUser (state, user) {
+      state.user = user
     }
   },
   actions: {
