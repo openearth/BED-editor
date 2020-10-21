@@ -39,13 +39,13 @@ import { mapState } from 'vuex'
 export default {
   computed: {
     ...mapState(['user']),
-    authUrl () {
-      return `${process.env.VUE_APP_EDITOR_SERVER}/auth${window.location.search}`
-    },
     loginUrl () {
+      // Go to login endpoint in BE. Use the route 'callback' to handle the
+      // authorization on redirect and set session cookies
       return `${process.env.VUE_APP_EDITOR_SERVER}/login?redirect_uri=${window.location.origin}/callback`
     },
     logoutUrl () {
+      // Remove session cookies and use logout endpoint from BE
       return `${process.env.VUE_APP_EDITOR_SERVER}/logout`
     },
     name () {
