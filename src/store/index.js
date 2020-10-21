@@ -18,13 +18,12 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    loadEditorConfig () {
+    loadEditorConfig (store) {
       // Get the openapi json to retrieve the template per model.
       // For now only HydroMT available
-
       let url = process.env.VUE_APP_EDITOR_SERVER
       url = url.replace('/v1', '')
-      fetch(`${url}/openapi.json`)
+      return fetch(`${url}/openapi.json`)
         .then(res => {
           return res.json()
         })
