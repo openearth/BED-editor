@@ -31,7 +31,6 @@ export default new Vuex.Store({
           // TODO: in backedn add default value property to all fields
           Object.keys(response.components.schemas.BBox.properties).forEach(
             key => {
-              console.log(key)
               response.components.schemas.BBox.properties[key].value = 0
             }
           )
