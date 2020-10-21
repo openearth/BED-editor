@@ -1,10 +1,10 @@
 <template>
 <v-navigation-drawer class="pl-16" permanent absolute width="40vw">
-  <v-container class="d-flex flex-column" fill-height>
+  <v-container class="account d-flex flex-column" fill-height>
     <h2 class="h3">
       Account
     </h2>
-    <div class="account-details flex-grow-1">
+    <div class="account-details flex-grow-1 py-3">
       <h3 class="h4">
         Account Details
       </h3>
@@ -68,5 +68,23 @@ export default {
 </script>
 
 <style>
+.account {
+  align-items: flex-start;
+}
 
+.account-details__placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.account-details dt {
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+}
+
+.account-details dd {
+  margin-bottom: var(--spacing-small);
+  margin-left: 0;
+}
 </style>
