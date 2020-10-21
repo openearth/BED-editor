@@ -54,6 +54,19 @@
         Create Workflow
       </v-btn>
     </v-row>
+
+    <v-container v-if="createForm === false">
+      <v-alert outlined color="primary">
+        Scehmatization created!
+      </v-alert>
+      <v-textarea
+        solo
+        readonly
+        name="input-7-4"
+        label="Solo textarea"
+        :value="createdMessage"
+      ></v-textarea>
+    </v-container>
   </div>
 </template>
 
@@ -96,7 +109,7 @@ export default {
         })
         .then(res => {
           this.createForm = false
-          this.$emit('workflow-created', JSON.stringify(res))
+          this.createdMessage = res
         })
     }
   }

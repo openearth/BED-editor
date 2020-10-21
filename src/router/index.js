@@ -13,7 +13,7 @@ const routes = [
     name: 'Home'
   },
   {
-    path: '/Editor',
+    path: '/Editor/:jobId',
     name: 'Editor',
     component: Editor
   },
