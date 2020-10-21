@@ -6,13 +6,14 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     editorTemplate: {},
-    selectedBbox: {}
+    selectedBbox: {},
+    user: null
   },
   mutations: {
     setBboxProperties (state, props) {
       state.selectedBbox.properties = props
     },
-    setUser (state, user) {
+    setUser (state, { user }) {
       state.user = user
     }
   },
@@ -21,20 +22,18 @@ export default new Vuex.Store({
       // Get the openapi json to retrieve the template per model.
       // For now only HydroMT available
 
-      fetch(`${process.env.VUE_APP_EDITOR_SERVER}/openapi.json`)
+      let url = process.env.VUE_APP_EDITOR_SERVER
+      url = url.replace('/v1', '')
+      fetch(`${url}/openapi.json`)
         .then(res => {
           return res.json()
         })
         .then(response => {
           // Save the schemas asstate properties
-          this.state.editorTemplate = response.components.schemas.HydroMT
-          // TODO: in backedn add default value property to all fields
-          Object.keys(response.components.schemas.BBox.properties).forEach(
-            key => {
-              console.log(key)
-              response.components.schemas.BBox.properties[key].value = 0
-            }
-          )
+          console.log(response)
+          const inputs = response.components.schemas.HydroMTProcessInputs
+          delete inputs.properties.type
+          this.state.editorTemplate = inputs
           this.state.selectedBbox = response.components.schemas.BBox
         })
     }
