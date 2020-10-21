@@ -30,7 +30,6 @@ export default new Vuex.Store({
         })
         .then(response => {
           // Save the schemas asstate properties
-          console.log(response)
           const inputs = response.components.schemas.HydroMTProcessInputs
           delete inputs.properties.type
           this.state.editorTemplate = inputs
