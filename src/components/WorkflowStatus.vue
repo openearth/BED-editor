@@ -1,14 +1,13 @@
 <template>
   <div class="workflow-status pa-3 d-flex flex-column">
     <h2 class="h3 mb-3 justify-start">
-      Model details for job: {{ jobDetails.title }} (workflow:
-      {{ $route.params.model }})
+      Workflow details for job: {{ jobDetails.title }}
     </h2>
-    <data-table :tableHeaders="tableHeaders" :tableItems="detailItems"/>
+    <data-table items :tableHeaders="tableHeaders" :tableItems="detailItems"/>
     <h2 class="mt-4">
       Model results
     </h2>
-    <data-table :tableHeaders="tableHeaders" :tableItems="resultItems"/>
+    <data-table items :tableHeaders="tableHeaders" :tableItems="resultItems"/>
     <v-btn v-if="jobResults.s3path !== ''" :to="jobDataUrl()" target=”_blank”>
       Show results in bucket
     </v-btn>
@@ -52,8 +51,12 @@ export default {
   },
   methods: {
     jobDataUrl () {
-      const s3path = this.jobResults.s3path.replace('/', '%2F')
-      return `/data/${s3path}`
+      if (this.jobResults.s3path) {
+        const s3path = this.jobResults.s3path.replace('/', '%2F')
+        return `/data/${s3path}`
+      } else {
+        return null
+      }
     },
     fetchJobDetails () {
       fetch(
@@ -115,8 +118,4 @@ export default {
 </script>
 
 <style>
-.workflow-status {
-  max-height: 100%;
-  overflow-y: auto;
-}
 </style>
