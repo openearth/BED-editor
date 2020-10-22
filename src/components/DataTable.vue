@@ -1,18 +1,37 @@
+</template> -->
 <template>
-  <div class="table">
-    <v-data-table
-      :headers="tableHeaders"
-      :items="tableItems"
-      hide-default-footer
-      hide-default-headers
-      ref="datatable"
-    >
-      <template slot="items" slot-scope="props">
-        <td class="text-xs-left">{{ props.item.name }}</td>
-        <td class="text-xs-left">{{ props.item.value }}</td>
-      </template>
-    </v-data-table>
-  </div>
+  <v-simple-table
+    fixed-header
+  >
+    <template v-slot:default>
+      <thead>
+        <tr>
+          <th class="text-left" v-for="header in tableHeaders" :key="header">
+            {{header}}
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          v-for="item in tableItems"
+          :key="item.name"
+        >
+          <td>{{ item.name }}</td>
+          <td v-if="typeof item.value === 'object'">
+            <v-list>
+              <v-list-item v-for="(val, name) in item.value" :key="name">
+                <v-list-content>
+                  <v-list-item-title v-text="`${name}: ${val}`">
+                  </v-list-item-title>
+                </v-list-content>
+              </v-list-item>
+            </v-list>
+          </td>
+          <td v-else >{{ item.value }}</td>
+        </tr>
+      </tbody>
+    </template>
+  </v-simple-table>
 </template>
 
 <script>

@@ -20,23 +20,7 @@ export default {
   data () {
     return {
       jobDetails: [],
-      tableHeaders: [
-        {
-          text: 'Property',
-          align: 'left',
-          sortable: false,
-          value: 'name',
-          width: '50%'
-        },
-        {
-          text: 'Value',
-          align: 'left',
-          sortable: false,
-          value: 'value',
-          width: '50%'
-
-        }
-      ],
+      tableHeaders: ['Name', 'Value'],
       detailItems: [],
       resultItems: [],
       jobResults: []
