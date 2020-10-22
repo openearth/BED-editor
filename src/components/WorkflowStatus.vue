@@ -114,4 +114,9 @@ export default {
 }
 </script>
 
-<style lang="css" scoped></style>
+<style>
+.workflow-status {
+  max-height: 100%;
+  overflow-y: auto;
+}
+</style>

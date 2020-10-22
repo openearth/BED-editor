@@ -1,14 +1,26 @@
 <template>
   <div class="list-workflows">
-    <v-list>
+    <v-list width="100%">
       <v-list-item v-for="workflow in workflows" :key="workflow.jobId" :to="`/Editor/${workflow.jobID}`">
-        {{workflow.title}}
+        <v-list-item-icon>
+         <v-icon small v-text="`mdi-checkbox-blank-circle`" :color="iconColor(workflow.status)"></v-icon>
+       </v-list-item-icon>
+       <v-list-item-content>
+        <v-list-item-title v-text="workflow.title"></v-list-item-title>
+      </v-list-item-content>
       </v-list-item>
     </v-list>
   </div>
 </template>
 
 <script>
+const colors = {
+  running: '#001FFF',
+  failed: '#FF0000',
+  accepted: '#00FBFF',
+  succesful: '#08FF00'
+}
+
 export default {
   data () {
     return {
@@ -35,11 +47,17 @@ export default {
         .catch(error => {
           console.error('Error processes', error)
         })
+    },
+    iconColor (status) {
+      return colors[status]
     }
   }
 }
 </script>
 
-<style lang="css" scoped >
-
+<style>
+.list-workflows {
+  overflow-y: auto;
+  width: 100%;
+}
 </style>
