@@ -1,4 +1,3 @@
-</template> -->
 <template>
   <v-simple-table
     fixed-header
