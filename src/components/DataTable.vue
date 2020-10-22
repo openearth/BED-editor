@@ -19,10 +19,10 @@
           <td v-if="typeof item.value === 'object'">
             <v-list>
               <v-list-item v-for="(val, name) in item.value" :key="name">
-                <v-list-content>
+                <v-list-item-content>
                   <v-list-item-title v-text="`${name}: ${val}`">
                   </v-list-item-title>
-                </v-list-content>
+                </v-list-item-content>
               </v-list-item>
             </v-list>
           </td>
