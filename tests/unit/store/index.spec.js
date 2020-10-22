@@ -27,7 +27,7 @@ describe('setUser', () => {
     }
     const user = { user: 'name' }
     store.commit('setUser', (user))
-    expect(store.state.user).toBe(user.user)
+    expect(store.state.user).toBe(user)
   })
 })
 
