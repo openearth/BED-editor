@@ -1,6 +1,6 @@
 <template>
 <v-navigation-drawer class="pl-16" permanent absolute width="40vw">
-  <v-container class="account d-flex flex-column pa-3" fill-height>
+  <v-container class="account d-flex flex-column">
     <h2 class="h3">
       Account
     </h2>
@@ -8,7 +8,7 @@
       <h3 class="h4">
         Account Details
       </h3>
-      <dl v-if="user.email" class="account-details__list">
+      <dl v-if="email !== '--'" class="account-details__list">
         <dt>Name</dt>
         <dd>{{ name }}</dd>
         <dt>Email address</dt>
@@ -22,7 +22,7 @@
     </div>
 
     <div class="flex-shrink-0">
-      <v-btn v-if="!user.email" :href="loginUrl">
+      <v-btn v-if="email === '--'" :href="loginUrl">
         Login
       </v-btn>
       <v-btn v-else :href="logoutUrl">
@@ -34,7 +34,8 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapMutations } from 'vuex'
+import _ from 'lodash'
 
 export default {
   computed: {
@@ -49,20 +50,17 @@ export default {
       return `${process.env.VUE_APP_EDITOR_SERVER}/logout`
     },
     name () {
-      return this.user.name || '--'
+      return _.get(this.user, 'name') || '--'
     },
     email () {
-      return this.user.email || '--'
+      return _.get(this.user, 'email') || '--'
     },
     phone () {
-      return this.user.phone || '--'
+      return _.get(this.user, 'phone') || '--'
     }
   },
   methods: {
-    login () {
-    },
-    logout () {
-    }
+    ...mapMutations(['setUser'])
   }
 }
 </script>
@@ -70,6 +68,7 @@ export default {
 <style>
 .account {
   align-items: flex-start;
+  height: 100%;
 }
 
 .account-details__placeholder {
