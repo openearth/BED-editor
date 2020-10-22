@@ -5,7 +5,6 @@
         Editor
       </h2>
       <create-workflow @workflow-created="createdMessage = $event"/>
-      <workflow-status />
     </v-container>
     <v-container v-if="createForm === false">
       <v-alert outlined color="primary">
@@ -24,11 +23,9 @@
 
 <script>
 import CreateWorkflow from '../components/CreateWorkflow'
-import WorkflowStatus from '../components/WorkflowStatus'
 export default {
   components: {
-    CreateWorkflow,
-    WorkflowStatus
+    CreateWorkflow
   },
   data () {
     return {
