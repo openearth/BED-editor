@@ -50,13 +50,13 @@ export default {
       return `${process.env.VUE_APP_EDITOR_SERVER}/logout`
     },
     name () {
-      return _.get(this.user, 'name') || '--'
+      return _.get(this.user, 'name', '--')
     },
     email () {
-      return _.get(this.user, 'email') || '--'
+      return _.get(this.user, 'email', '--')
     },
     phone () {
-      return _.get(this.user, 'phone') || '--'
+      return _.get(this.user, 'phone', '--')
     }
   },
   methods: {
