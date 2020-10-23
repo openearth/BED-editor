@@ -49,14 +49,6 @@
                 <v-list-item-title>About</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item link :to="{ name: 'Account' }">
-              <v-list-item-icon>
-                <custom-icon name="account" />
-              </v-list-item-icon>
-              <v-list-item-content>
-                <v-list-item-title>Account</v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
           </v-list-item-group>
         </v-list>
       </template>

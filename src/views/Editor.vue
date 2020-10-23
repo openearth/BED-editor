@@ -76,6 +76,7 @@
 
 <script>
 import { mapState } from 'vuex'
+
 export default {
   computed: {
     ...mapState(['editorTemplate', 'selectedBbox'])
@@ -101,6 +102,7 @@ export default {
           jsonBody[entry[0]] = entry[1].value
         }
       })
+
       fetch(`${process.env.VUE_APP_EDITOR_SERVER}/hydromt`, {
         method: 'POST',
         body: JSON.stringify(jsonBody)
