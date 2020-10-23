@@ -11,7 +11,10 @@
 <script>
 import MapComponent from './components/MapComponent'
 import SideMenu from './components/SideMenu'
-import { mapActions } from 'vuex'
+import {
+  mapActions, mapMutations
+} from 'vuex'
+
 export default {
   name: 'App',
 
@@ -25,9 +28,28 @@ export default {
   }),
   mounted () {
     this.loadEditorConfig()
+    this.getUser()
   },
   methods: {
-    ...mapActions(['loadEditorConfig'])
+    ...mapActions(['loadEditorConfig']),
+    ...mapMutations(['setUser']),
+    getUser () {
+      fetch(`${process.env.VUE_APP_EDITOR_SERVER}/me`, {
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+        .then(response => {
+          return response.json()
+        })
+        .then(data => {
+          this.setUser(data)
+        })
+        .catch(error => {
+          console.error('Error login', error)
+        })
+    }
   }
 }
 </script>
