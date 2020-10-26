@@ -57,7 +57,7 @@
 
     <v-container v-if="createForm === false">
       <v-alert outlined color="primary">
-        Scehmatization created!
+        Schematization created!
       </v-alert>
       <v-textarea
         solo

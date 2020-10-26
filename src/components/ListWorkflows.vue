@@ -1,7 +1,7 @@
 <template>
   <div class="list-workflows">
     <v-list width="100%">
-      <v-list-item v-for="workflow in workflows" :key="workflow.jobId" :to="`/Editor/${workflow.jobID}`">
+      <v-list-item v-for="workflow in workflows" :key="workflow.jobId" :to="`/editor/${workflow.jobID}`">
         <v-list-item-icon>
          <v-icon small v-text="`mdi-checkbox-blank-circle`" :color="iconColor(workflow.status)"></v-icon>
        </v-list-item-icon>

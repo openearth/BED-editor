@@ -9,10 +9,10 @@
         <create-workflow v-if="$route.params.jobId === 'new'" />
         <workflow-status v-if="$route.params.jobId !== 'new' && $route.params.jobId !== 'list' && $route.params.jobId" />
       </div>
-      <v-btn to="/Editor/new" class="my-3 flex-grow-0"  outlined block>
+      <v-btn :to="{ name: 'editor', params: { jobId: 'new' }}" class="my-3 flex-grow-0"  outlined block>
         Create new workflow
       </v-btn>
-      <v-btn to="/Editor/list" class="flex-grow-0"  outlined block>
+      <v-btn :to="{ name: 'editor', params: { jobId: 'list' }}" class="flex-grow-0"  outlined block>
         List workflows
       </v-btn>
     </v-container>

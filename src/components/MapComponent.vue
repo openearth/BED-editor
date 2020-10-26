@@ -22,16 +22,6 @@ import { mapState, mapMutations } from 'vuex'
 import _ from 'lodash'
 
 export default {
-  // watch: {
-  //   $route (to, from) {
-  //     if (from.name === 'Editor') {
-  //       this.removeDrawingTools()
-  //     }
-  //     if (to.name === 'Editor') {
-  //       this.addDrawingTools()
-  //     }
-  //   }
-  // },
   mounted () {
     this.map = this.$refs.map.map
     this.modes = MapboxDraw.modes
