@@ -49,4 +49,7 @@ export default {
 </script>
 
 <style>
+th {
+  width: 50%;
+}
 </style>
