@@ -18,7 +18,7 @@ const colors = {
   running: '#001FFF',
   failed: '#FF0000',
   accepted: '#00FBFF',
-  succesful: '#08FF00'
+  successful: '#08FF00'
 }
 
 export default {
