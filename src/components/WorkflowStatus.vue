@@ -4,18 +4,22 @@
       Workflow details for job: {{ jobDetails.title }}
     </h2>
     <data-table items :tableHeaders="tableHeaders" :tableItems="detailItems"/>
-    <h2 class="mt-4">
-      Model results
-    </h2>
-    <data-table items :tableHeaders="tableHeaders" :tableItems="resultItems"/>
-    <v-btn v-if="jobResults.s3path !== ''" :to="jobDataUrl()" target=”_blank”>
-      Show results in bucket
-    </v-btn>
+    <div v-if="jobDetails.status === 'successful'">
+      <h2 class="mt-4">
+        Model results
+      </h2>
+      <data-table items :tableHeaders="tableHeaders" :tableItems="resultItems"/>
+      <h2 class="mt-4">
+        Result files from bucket
+      </h2>
+      <file-details :files="files"/>
+    </div>
   </div>
 </template>
 
 <script>
 import DataTable from '@/components/DataTable'
+import FileDetails from '@/components/FileDetails'
 export default {
   data () {
     return {
@@ -23,11 +27,13 @@ export default {
       tableHeaders: ['Name', 'Value'],
       detailItems: [],
       resultItems: [],
-      jobResults: []
+      jobResults: [],
+      files: []
     }
   },
   components: {
-    DataTable
+    DataTable,
+    FileDetails
   },
   mounted () {
     this.fetchJobDetails()
@@ -64,12 +70,16 @@ export default {
               name: val[0]
             })
           })
+          if (this.jobDetails.status === 'successful') {
+            this.showResultFiles()
+          }
         })
         .catch(error => {
           console.error('Error fetching job per process_id', error)
         })
     },
     fetchJobResults () {
+      // Retrieve the results of the workflow - only available when workflow is finished
       fetch(
         `${process.env.VUE_APP_EDITOR_SERVER}/processes/hydromt/jobs/${this.$route.params.jobId}/results`,
         {
@@ -95,6 +105,33 @@ export default {
         })
         .catch(error => {
           console.error('Error fetching job per process_id', error)
+        })
+    },
+    showResultFiles () {
+    // Retrieve liste of result output files from the buvket by result s3path
+      // const url = `${process.env.VUE_APP_EDITOR_SERVER}/files?prefix=${this.resultItems.s3path}`
+      const url = `${process.env.VUE_APP_EDITOR_SERVER}/files`
+
+      return fetch(
+        url,
+        {
+          credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }
+      )
+        .then(response => {
+          return response.json()
+        })
+        .then(data => {
+          this.files = []
+          data.forEach((file, index) => {
+            this.files.push({ id: index, name: file, file: true })
+          })
+        })
+        .catch(error => {
+          console.error('Error fetching files', error)
         })
     }
   }
