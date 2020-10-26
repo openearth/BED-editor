@@ -1,6 +1,6 @@
 <template>
-  <v-navigation-drawer class="pl-16" permanent absolute width="60vw">
-    <v-container class="editor d-flex flex-column pa-3">
+  <v-navigation-drawer class="pl-14" permanent absolute width="60vw">
+    <v-container class="editor d-flex flex-column">
       <h2 class="h3 mb-3 justify-start">
         Editor
       </h2>
@@ -47,6 +47,7 @@ export default {
   width: 100%;
   max-height: 100%;
   overflow-y: auto;
+  overflow-x: hidden;
 }
 
 </style>
