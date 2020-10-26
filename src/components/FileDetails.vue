@@ -29,6 +29,7 @@ export default {
   },
   methods: {
     downloadUrl (file) {
+      // Compose url to backend endpoint (this will be redirected to bucket)
       return `${process.env.VUE_APP_EDITOR_SERVER}/files/${file.name}`
     }
   }
