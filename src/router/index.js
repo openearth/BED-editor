@@ -10,26 +10,26 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    name: 'Home'
+    name: 'home'
   },
   {
-    path: '/Editor',
-    name: 'Editor',
+    path: '/editor/:jobId',
+    name: 'editor',
     component: Editor
   },
   {
-    path: '/About',
-    name: 'About',
+    path: '/about',
+    name: 'about',
     component: About
   },
   {
-    path: '/Account',
-    name: 'Account',
+    path: '/account',
+    name: 'account',
     component: Account
   },
   {
     path: '/callback',
-    name: 'Callback',
+    name: 'callback',
     component: Callback
   }
 ]

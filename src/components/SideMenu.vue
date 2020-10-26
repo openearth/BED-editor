@@ -8,7 +8,7 @@
       expand-on-hover
     >
       <v-list dense class="pa-0">
-        <v-list-item class="px-2" link :to="{ name: 'Home' }">
+        <v-list-item class="px-2" link :to="{ name: 'home' }">
           <v-list-item-avatar>
             <custom-icon name="deltares" />
           </v-list-item-avatar>
@@ -25,7 +25,7 @@
             v-for="item in items"
             :key="item.title"
             link
-            :to="{ name: item.title }"
+            :to="{ name: item.name }"
           >
             <v-list-item-icon>
               <v-icon>{{ item.icon }}</v-icon>
@@ -41,7 +41,7 @@
       <template v-slot:append>
         <v-list dense class="pa-0">
           <v-list-item-group color="primary" class="bottom-menu">
-            <v-list-item link :to="{ name: 'About' }">
+            <v-list-item link :to="{ name: 'about' }">
               <v-list-item-icon>
                 <custom-icon name="info" />
               </v-list-item-icon>
@@ -49,7 +49,7 @@
                 <v-list-item-title>About</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item link :to="{ name: 'Account' }">
+            <v-list-item link :to="{ name: 'account' }">
               <v-list-item-icon>
                 <custom-icon name="account" />
               </v-list-item-icon>
@@ -74,7 +74,7 @@ export default {
   data () {
     return {
       drawer: true,
-      items: [{ title: 'Editor', icon: 'mdi-circle-edit-outline' }],
+      items: [{ title: 'Editor', name: 'editor', icon: 'mdi-circle-edit-outline' }],
       mini: true
     }
   }
