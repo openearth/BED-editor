@@ -13,7 +13,7 @@ export default new Vuex.Store({
     setBboxProperties (state, props) {
       state.selectedBbox.properties = props
     },
-    setUser (state, { user }) {
+    setUser (state, user) {
       state.user = user
     }
   },
