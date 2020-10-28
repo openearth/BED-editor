@@ -113,7 +113,7 @@ export default {
   },
   data () {
     return {
-      createForm: 'create',
+      createForm: 'create', // 'create', 'success' or 'error'
       createdMessage: ''
     }
   },
@@ -133,7 +133,6 @@ export default {
           jsonBody[entry[0]] = entry[1].value
         }
       })
-      console.log(jsonBody)
       fetch(`${process.env.VUE_APP_EDITOR_SERVER}/processes/hydromt/jobs`, {
         credentials: 'include',
         headers: {
@@ -146,11 +145,13 @@ export default {
           return response.json()
         })
         .then(res => {
+          // Check if the python code gave an error, that will be displayed
+          // in an attribute called detail
           const error = _.get(res, 'detail')
-          if (error) {
-            this.createForm = 'error'
-            this.createdMessage = error
-          } else {
+          this.createForm = 'error'
+          this.createdMessage = error
+
+          if (!error) {
             this.createForm = 'success'
             const params = _.get(res, 'spec.arguments.parameters')
             let paramString = ''
@@ -161,6 +162,8 @@ export default {
           }
         })
         .catch(error => {
+          // If internal error or not logged in error, the fetch will give
+          // back an error and need to catch it here.
           this.createForm = 'error'
           this.createdMessage = error.detail || error
         })
