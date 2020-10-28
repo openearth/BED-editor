@@ -22,10 +22,10 @@
     </div>
 
     <div class="flex-shrink-0">
-      <v-btn v-if="email === '--'" :href="loginUrl">
+      <v-btn v-if="email === '--'" :href="loginUrl" outlined block>
         Login
       </v-btn>
-      <v-btn v-else :href="logoutUrl">
+      <v-btn v-else :href="logoutUrl" outlined block>
         Logout
       </v-btn>
     </div>
@@ -67,23 +67,6 @@ export default {
 
 <style>
 .account {
-  align-items: flex-start;
   height: 100%;
-}
-
-.account-details__placeholder {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.account-details dt {
-  margin-bottom: 0.5rem;
-  font-weight: bold;
-}
-
-.account-details dd {
-  margin-bottom: var(--spacing-small);
-  margin-left: 0;
 }
 </style>

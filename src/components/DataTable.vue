@@ -5,7 +5,7 @@
     <template v-slot:default>
       <thead>
         <tr>
-          <th class="text-left" v-for="header in tableHeaders" :key="header">
+          <th class="text-left data-table-th" v-for="header in tableHeaders" :key="header">
             {{header}}
           </th>
         </tr>
@@ -49,4 +49,7 @@ export default {
 </script>
 
 <style>
+.data-table-th {
+  width: 50%;
+}
 </style>

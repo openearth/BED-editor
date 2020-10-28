@@ -11,6 +11,10 @@ export default new Vuex.Store({
   },
   mutations: {
     setBboxProperties (state, props) {
+      // First throw out old state in order to update this object properly.
+      // Otherwise when used in vue files as computed property, it won't see
+      // the update
+      state.selectedBbox.properties = {}
       state.selectedBbox.properties = props
     },
     setUser (state, user) {

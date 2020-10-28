@@ -1,19 +1,20 @@
 <template>
   <div class="create-workflow">
-    <v-form v-if="createForm === true">
+    <v-form v-if="createForm === 'create'">
       <h4 class="mb-3">
         {{ selectedBbox.title }}
       </h4>
       <!-- Set bounding box -->
       <v-row>
         <v-text-field
-          v-for="bound in selectedBbox.properties"
-          :key="bound.title"
+          v-for="bound in bbox"
+          :key="bound.value"
           dense
           readonly
           :label="bound.title"
           class="px-3"
           :value="bound.value"
+          ref='bbox'
         ></v-text-field>
       </v-row>
       <v-divider class="pb-3" />
@@ -49,13 +50,13 @@
         ></v-combobox>
       </v-row>
     </v-form>
-    <v-row class="pa-3 justify-end" v-if="createForm === true">
+    <v-row class="pa-3 justify-end" v-if="createForm === 'create'">
       <v-btn bottom color="primary" outlined @click="createSchematization">
         Create Workflow
       </v-btn>
     </v-row>
 
-    <v-container v-if="createForm === false">
+    <v-container v-if="createForm === 'success'">
       <v-alert outlined color="primary">
         Schematization created!
       </v-alert>
@@ -67,21 +68,57 @@
         :value="createdMessage"
       ></v-textarea>
     </v-container>
+
+    <v-container v-if="createForm === 'error'">
+      <v-alert outlined color="error">
+        Error creating Schematization!
+      </v-alert>
+      <v-textarea
+        solo
+        readonly
+        name="input-7-4"
+        label="Solo textarea"
+        :value="createdMessage"
+      ></v-textarea>
+      <v-btn @click="createForm = 'create'">
+        Go back
+      </v-btn>
+    </v-container>
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapMutations } from 'vuex'
+import _ from 'lodash'
 export default {
+  watch: {
+    bbox: {
+      handler (val) {
+        console.log(val)
+      },
+      deep: true
+    }
+  },
   computed: {
-    ...mapState(['editorTemplate', 'selectedBbox'])
+    ...mapState(['editorTemplate', 'selectedBbox']),
+    bbox: {
+      get () {
+        console.log(this.$store.state.selectedBbox.properties)
+        return this.$store.state.selectedBbox.properties
+      },
+      set (val) {
+        this.setBboxProperties(val)
+      }
+    }
   },
   data () {
     return {
-      createForm: true
+      createForm: 'create', // 'create', 'success' or 'error'
+      createdMessage: ''
     }
   },
   methods: {
+    ...mapMutations(['setBboxProperties']),
     createSchematization () {
       const jsonBody = {}
       // Fill in the json body needed for the schematization request
@@ -108,14 +145,33 @@ export default {
           return response.json()
         })
         .then(res => {
-          this.createForm = false
-          this.createdMessage = res
+          // Check if the python code gave an error, that will be displayed
+          // in an attribute called detail
+          const error = _.get(res, 'detail')
+          this.createForm = 'error'
+          this.createdMessage = error
+
+          if (!error) {
+            this.createForm = 'success'
+            const params = _.get(res, 'spec.arguments.parameters')
+            let paramString = ''
+            params.forEach(p => {
+              paramString = `${paramString}${p.name}: ${p.value} \n`
+            })
+            this.createdMessage = paramString
+          }
+        })
+        .catch(error => {
+          // If internal error or not logged in error, the fetch will give
+          // back an error and need to catch it here.
+          this.createForm = 'error'
+          this.createdMessage = error.detail || error
         })
     }
   }
 }
 </script>
 
-<style lang="css" scoped >
+<style>
 
 </style>

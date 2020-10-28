@@ -15,10 +15,10 @@
 
 <script>
 const colors = {
-  running: '#001FFF',
-  failed: '#FF0000',
-  accepted: '#00FBFF',
-  succesful: '#08FF00'
+  running: '#009688',
+  failed: '#009688',
+  accepted: '#009688',
+  successful: '#4CAF50'
 }
 
 export default {
